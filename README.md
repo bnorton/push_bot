@@ -35,6 +35,7 @@ end
 # push token is the token given my the phone's OS
 # platform is :ios or :android
 
+device = PushBot::Device.new('USER TOKEN', :ios)
 device = PushBot::Device.new(user.push_token, user.platform)
 device.add
 ```
