@@ -8,11 +8,10 @@ Gem::Specification.new do |spec|
   spec.version       = PushBot::VERSION
   spec.authors       = ['Brian Norton']
   spec.email         = ['brian.nort@gmail.com']
-  spec.summary       = ''
-  spec.description   = ''
-  spec.homepage      = 'http://github.com/push_bot'
+  spec.summary       = 'A Ruby interface to the PushBots API'
+  spec.description   = 'Register, Push to and get information about devices on your account.'
+  spec.homepage      = 'https://github.com/push_bot'
   spec.license       = 'MIT'
-
   spec.files         = `git ls-files -z`.split("\x0")
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
@@ -20,5 +19,6 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency 'bundler', '~> 1.7'
   spec.add_development_dependency 'rake', '~> 10.0'
+  spec.add_development_dependency 'rspec', '~> 3.1'
   spec.add_runtime_dependency 'typhoeus', '~> 0.6'
 end
