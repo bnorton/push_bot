@@ -28,6 +28,14 @@ module PushBot
       request.put(type, options)
     end
 
+    # Alias one user identifier to another
+    #
+    # @param alias_options Any of the options available {https://pushbots.com/developer/rest Rest Docs @ PushBots}
+    # @return {PushBot::Response}
+    def alias(alias_options={})
+      Request.new(:alias).put(nil, alias_options.merge(:token => token, :platform => platform))
+    end
+
     # Retrieve information about the device with this token
     #
     # @return {PushBot::Response}

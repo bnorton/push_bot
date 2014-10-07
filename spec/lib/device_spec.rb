@@ -56,6 +56,18 @@ describe PushBot::Device do
     end
   end
 
+  describe '#alias' do
+    let(:options) { { :alias => 'john@example.com' } }
+    let(:alias_) { subject.alias(options) }
+
+    it 'should send request the remove' do
+      expect(PushBot::Request).to receive(:new).with(:alias).and_return(request)
+      expect(request).to receive(:put).with(nil, hash_including(:alias => 'john@example.com', :token => 'user token', :platform => '0'))
+
+      alias_
+    end
+  end
+
   describe '#info' do
     let(:info) { subject.info }
 
