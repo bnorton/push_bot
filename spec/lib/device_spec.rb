@@ -7,15 +7,25 @@ describe PushBot::Device do
 
   let(:request) { double(PushBot::Request) }
 
+  before do
+    allow(PushBot::Request).to receive(:new).with(:deviceToken).and_return(request)
+  end
+
+  describe '#all' do
+    let(:all) { subject.all }
+
+    it 'should list all of the' do
+      expect(request).to receive(:get).with(:all)
+
+      all
+    end
+  end
+
   describe '#add' do
     let(:message) { 'Push Message' }
     let(:options) { { :extra => 'value' } }
 
     let(:add) { subject.add(options) }
-
-    before do
-      allow(PushBot::Request).to receive(:new).with(:deviceToken).and_return(request)
-    end
 
     it 'should send the given attributes' do
       expect(request).to receive(:put).with(nil, hash_including(:token => 'user token', :platform => '0'))
@@ -49,10 +59,6 @@ describe PushBot::Device do
   describe '#info' do
     let(:info) { subject.info }
 
-    before do
-      allow(PushBot::Request).to receive(:new).with(:deviceToken).and_return(request)
-    end
-
     it 'should send request the information' do
       expect(request).to receive(:get).with(:one, hash_including(:token => 'user token'))
 
@@ -60,12 +66,19 @@ describe PushBot::Device do
     end
   end
 
+  describe '#removed' do
+    let(:removed) { subject.removed }
+
+    it 'should list the removed devices' do
+      expect(PushBot::Request).to receive(:new).with(:feedback).and_return(request)
+      expect(request).to receive(:get)
+
+      removed
+    end
+  end
+
   describe '#remove' do
     let(:remove) { subject.remove }
-
-    before do
-      allow(PushBot::Request).to receive(:new).with(:deviceToken).and_return(request)
-    end
 
     it 'should send request the remove' do
       expect(request).to receive(:put).with(:del, hash_including(:token => 'user token', :platform => '0'))

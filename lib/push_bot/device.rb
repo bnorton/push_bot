@@ -1,5 +1,12 @@
 module PushBot
   class Device < Api
+    # Request a list of your registered devices
+    #
+    # @return {PushBot::Response}
+    def all
+      request.get(:all)
+    end
+
     # Add a specific user or batch of users to PushBots
     #
     # @param registration_options Any of the options available {https://pushbots.com/developer/rest Rest Docs @ PushBots}
@@ -18,14 +25,18 @@ module PushBot
         options[:tokens] = token
       end
 
-      Request.new(:deviceToken).put(type, options)
+      request.put(type, options)
     end
 
     # Retrieve information about the device with this token
     #
     # @return {PushBot::Response}
     def info
-      Request.new(:deviceToken).get(:one, :token => token)
+      request.get(:one, :token => token)
+    end
+
+    def removed
+      Request.new(:feedback).get
     end
 
     # Remove a specific user from PushBots
@@ -34,7 +45,13 @@ module PushBot
     def remove
       raise(ArgumentError, 'A token and platform is required for removal') unless token && token
 
-      Request.new(:deviceToken).put(:del, :token => token, :platform => platform)
+      request.put(:del, :token => token, :platform => platform)
+    end
+
+    private
+
+    def request
+      Request.new(:deviceToken)
     end
   end
 end

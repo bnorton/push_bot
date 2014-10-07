@@ -4,15 +4,15 @@ module PushBot
       @base = base
     end
 
-    def get(name, options)
+    def get(name=nil, options={})
       request(:get, name, options)
     end
 
-    def post(name, options)
+    def post(name, options={})
       request(:post, name, options)
     end
 
-    def put(name, options)
+    def put(name, options={})
       request(:put, name, options)
     end
 
