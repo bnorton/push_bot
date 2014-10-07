@@ -1,11 +1,11 @@
 module PushBot
   class Response
+    extend Forwardable
+
     attr_reader :raw_response, :error
 
-    def initialize(request)
-      @raw_response = request.run
-
-      @success = raw_response.success?
+    def initialize
+      @raw_response = yield
     rescue => e
       @error = e
     end
@@ -15,18 +15,14 @@ module PushBot
     end
 
     # Did the request complete successfully or have issues
-    def success?
-      defined?(@success) && @success
-    end
+    delegate :success? => :raw_response
+
+    # The raw response body string
+    delegate :body => :raw_response
 
     # Did the response complete with an error
     def error?
       defined?(@error) && @error
-    end
-
-    # The raw response body string
-    def body
-      raw_response.try(:body)
     end
 
     # The result of the request as a JSON Object

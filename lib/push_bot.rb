@@ -1,3 +1,5 @@
+require 'forwardable'
+
 require 'push_bot/api'
 require 'push_bot/config'
 require 'push_bot/device'

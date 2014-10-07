@@ -11,14 +11,19 @@ module PushBot
         :platform => platform
       ), :batch
 
-      if user?
+      if user? && !(Array === token)
         type = nil
         options[:token] = token
+      else
+        options[:tokens] = token
       end
 
       Request.new(:deviceToken).put(type, options)
     end
 
+    # Retrieve information about the device with this token
+    #
+    # @return {PushBot::Response}
     def info
       Request.new(:deviceToken).get(:one, :token => token)
     end
