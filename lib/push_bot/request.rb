@@ -28,7 +28,7 @@ module PushBot
         :headers => {
           :'X-PushBots-AppID' => Config.config.id,
           :'X-PushBots-Secret' => Config.config.secret,
-          :'Content-Type' => 'application/json'
+          :'Content-Type' => :'application/json'
         }
       }
 
@@ -36,11 +36,9 @@ module PushBot
         request_options[:headers][:Token] = options[:token]
       end
 
-      puts "Sending request:#{type} url:#{url} options:#{request_options.inspect}"
-
       request = Typhoeus::Request.new(url, request_options)
 
-      Response.new(request)
+      Response.new { request.run }
     end
   end
 end
