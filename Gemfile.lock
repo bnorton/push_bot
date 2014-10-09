@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    push_bot (0.4.1)
+    push_bot (0.4.2)
       typhoeus (~> 0.6)
 
 GEM
