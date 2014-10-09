@@ -78,6 +78,81 @@ describe PushBot::Device do
     end
   end
 
+  describe '#at_location' do
+    let(:location) { [37, -122] }
+    let(:at_location) { subject.at_location(*location) }
+
+    before do
+      allow(PushBot::Request).to receive(:new).with(:geo).and_return(request)
+    end
+
+    it 'should send the latitude and longitude' do
+      expect(request).to receive(:put).with(nil, hash_including(:lat => 37, :lng => -122))
+
+      at_location
+    end
+
+    describe 'when the location is a push bot location' do
+      let(:location) { [PushBot::Location.new(37, -122)] }
+
+      it 'should send the latitude and longitude' do
+        expect(request).to receive(:put).with(nil, hash_including(:lat => 37, :lng => -122))
+
+        at_location
+      end
+    end
+
+    describe 'when the location is an array' do
+      let(:location) { [[37, -122]] }
+
+      it 'should send the latitude and longitude' do
+        expect(request).to receive(:put).with(nil, hash_including(:lat => 37, :lng => -122))
+
+        at_location
+      end
+    end
+
+    describe 'when the location is an object{#lat,#lng}' do
+      let(:location) { [double(:geo, :lat => 37, :lng => -122)] }
+
+      it 'should send the latitude and longitude' do
+        expect(request).to receive(:put).with(nil, hash_including(:lat => 37, :lng => -122))
+
+        at_location
+      end
+    end
+
+    describe 'when the location is an object{#lat,#lon}' do
+      let(:location) { [double(:geo, :lat => 37, :lon => -122)] }
+
+      it 'should send the latitude and longitude' do
+        expect(request).to receive(:put).with(nil, hash_including(:lat => 37, :lng => -122))
+
+        at_location
+      end
+    end
+
+    describe 'when the location is an object{#latitude,#longitude}' do
+      let(:location) { [double(:geo, :latitude => 37, :longitude => -122)] }
+
+      it 'should send the latitude and longitude' do
+        expect(request).to receive(:put).with(nil, hash_including(:lat => 37, :lng => -122))
+
+        at_location
+      end
+    end
+
+    describe 'when the location does not exist' do
+      let(:location) { [1] }
+
+      it 'should have problems' do
+        expect {
+          at_location
+        }.to raise_error(ArgumentError, /latitude and longitude/)
+      end
+    end
+  end
+
   describe '#removed' do
     let(:removed) { subject.removed }
 

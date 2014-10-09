@@ -43,6 +43,20 @@ module PushBot
       request.get(:one, :token => token)
     end
 
+    # Set the users location to the specified latitude and longitude
+    #
+    # @param location two arguments of `latitude` and `longitude`
+    # @param location a two item array [`latitude` and `longitude`]
+    # @param location an object that responds to `lat` + `lng` OR `lat` + `lon` OR `latitude` + `longitude`
+    # @param location {PushBot::Location}
+    def at_location(*location)
+      lat, lng = PushBot::Location.parse(*location)
+
+      raise ArgumentError, 'latitude and longitude are required' unless lat && lng
+
+      Request.new(:geo).put(nil, :token => token, :platform => platform, :lat => lat, :lng => lng)
+    end
+
     def removed
       Request.new(:feedback).get
     end
