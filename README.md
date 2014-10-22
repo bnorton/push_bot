@@ -2,6 +2,9 @@
 
 PushBot is the Ruby Gem for connecting to the PushBots push notification service 
 
+#####Full Documentation
+[![push_bot API Documentation](https://www.omniref.com/ruby/gems/push_bot.png)](https://www.omniref.com/ruby/gems/push_bot)
+
 ## Installation
 
 Add this line to your application's Gemfile:
