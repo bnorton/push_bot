@@ -1,3 +1,6 @@
+require 'typhoeus'
+require 'json'
+
 module PushBot
   class Request
     def initialize(base)
